@@ -1,10 +1,13 @@
 import unittest
 import numpy as np
 import pickle
+import os
 
 class TestModel(unittest.TestCase):
     def setUp(self):
-        with open('../models/model.pkl', 'rb') as f:
+        # Cập nhật đường dẫn đến model.pkl
+        model_path = os.path.join(os.path.dirname(__file__), '../models/model.pkl')
+        with open(model_path, 'rb') as f:
             self.model = pickle.load(f)
 
     def test_prediction(self):
