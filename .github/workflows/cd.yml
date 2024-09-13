@@ -5,6 +5,7 @@ on: [push]
 jobs:
   train_and_test:
     runs-on: ubuntu-latest
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
       # Checkout code 
       - name: Checkout code
@@ -36,10 +37,7 @@ jobs:
           python src/test.py
           echo "## Single test Results" >> report.md
           cat single_test.txt >> report.md
-      
-      - name: Check report.md content
-        run: cat report.md
-        
+
       # Gửi báo cáo qua email
       - name: Send Email with Report
         env:
