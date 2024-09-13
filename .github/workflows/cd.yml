@@ -11,11 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Thiết lập Python
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.9
+      # # Thiết lập Python
+      # - name: Set up Python
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: 3.9
 
       # Cài đặt các thư viện 
       - name: Install dependencies
