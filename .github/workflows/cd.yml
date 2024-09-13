@@ -38,7 +38,7 @@ jobs:
           cat single_test.txt >> report.md
           
 
-      # Gửi báo cáo qua email 
+      # Gửi báo cáo qua email
       - name: Send Email with Report
         env:
           GIT_TOKEN: ${{ secrets.CML_TOKEN }}
