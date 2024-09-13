@@ -41,6 +41,6 @@ jobs:
       # Gửi báo cáo qua email 
       - name: Send Email with Report
         env:
-          MLOps_token: ${{ secrets.CML_TOKEN }}
+          GIT_TOKEN: ${{ secrets.CML_TOKEN }}
         run: |
           cml comment create report.md
