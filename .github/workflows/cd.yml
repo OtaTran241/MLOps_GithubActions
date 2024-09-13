@@ -6,7 +6,7 @@ jobs:
   train_and_test:
     runs-on: ubuntu-latest
     steps:
-      # Checkout code
+      # Checkout code 
       - name: Checkout code
         uses: actions/checkout@v3
 
