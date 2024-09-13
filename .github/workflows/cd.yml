@@ -41,6 +41,6 @@ jobs:
       # Gửi báo cáo qua email với CML
       - name: Send Email with CML
         env:
-          CML_GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}
+          MLOps_token: ${{ secrets.CML_GITHUB_TOKEN }}
         run: |
           cml-send-comment report.md
