@@ -10,6 +10,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install CML
+        run: npm install -g @dvcorg/cml
+
       # Thiết lập Python
       - name: Set up Python
         uses: actions/setup-python@v4
