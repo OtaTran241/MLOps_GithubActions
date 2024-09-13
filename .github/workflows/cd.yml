@@ -8,11 +8,11 @@ jobs:
     steps:
       # Checkout code từ GitHub
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Thiết lập Python
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
 
@@ -38,9 +38,15 @@ jobs:
           cat single_test.txt >> report.md
           
 
-      # Gửi báo cáo qua email với CML
-      - name: Send Email with CML
-        env:
-          MLOps_token: ${{ secrets.CML_GITHUB_TOKEN }}
-        run: |
-          cml-send-comment report.md
+      # Gửi báo cáo qua email
+      - name: Send Email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: 'smtp.gmail.com' 
+          server_port: 587                
+          username: ${{ secrets.EMAIL_USERNAME }}  
+          password: ${{ secrets.EMAIL_PASSWORD }} 
+          to: 'tranducthuan220401@gmail.com'  
+          subject: 'MLOps Training Report'
+          body: 'Please find the training report attached.'
+          attachments: 'report.md'
