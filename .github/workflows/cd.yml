@@ -29,7 +29,6 @@ jobs:
           echo "# Training Report" > report.md
           cat metrics.txt >> report.md
           echo "![](./residuals.png)" >> report.md
-          cml comment create report.md
         env:
           CML_GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}  
 
@@ -39,6 +38,7 @@ jobs:
           python src/test.py
           echo "## Single test Results" >> report.md
           cat single_test.txt >> report.md
+          
 
       # Gửi báo cáo qua email với CML
       - name: Send Email with CML
