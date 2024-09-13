@@ -3,3 +3,6 @@ scikit-learn
 numpy
 comet_ml
 mlflow
+seaborn
+matplotlib
+numpy
