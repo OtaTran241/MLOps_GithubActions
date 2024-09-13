@@ -41,6 +41,6 @@ jobs:
       # Gửi báo cáo qua email
       - name: Send Email with Report
         env:
-          REPO_TOKEN: ${{ secrets.CML_TOKEN }}
+          REPO_TOKEN: ${{ secrets.TOKEN }}
         run: |
           cml comment create report.md
