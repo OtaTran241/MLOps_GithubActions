@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: 3.9
 
-      # Cài đặt các thư viện phụ thuộc
+      # Cài đặt các thư viện 
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
