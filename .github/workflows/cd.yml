@@ -29,6 +29,8 @@ jobs:
           echo "# Training Report" > report.md
           cat metrics.txt >> report.md
           echo "![](./residuals.png)" >> report.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}
 
       # Test model 
       - name: Run tests
@@ -36,6 +38,8 @@ jobs:
           python src/test.py
           echo "## Single test Results" >> report.md
           cat single_test.txt >> report.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}
           
 
       # Gửi báo cáo qua email
