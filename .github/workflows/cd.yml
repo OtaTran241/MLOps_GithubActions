@@ -32,7 +32,7 @@ jobs:
 
       # Test mô hình sau khi train
       - name: Run tests
-        run: pytest
+        run: python src/test.py
 
       # Gửi báo cáo qua email với CML
       - name: Send Email with CML
