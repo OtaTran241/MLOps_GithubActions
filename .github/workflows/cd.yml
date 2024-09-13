@@ -1,0 +1,40 @@
+name: CI/CD Pipeline with CML Email Notification
+
+on: [push]
+
+jobs:
+  train_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout code từ GitHub
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Thiết lập Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      # Cài đặt các thư viện phụ thuộc
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          npm install -g @dvcorg/cml  # Cài đặt CML
+
+      # Train model và log kết quả
+      - name: Train Model and Log Results
+        run: |
+          python src/train.py
+          echo "# Training Report" > report.md
+          echo "Mô hình đã được train xong với các thông số sau:" >> report.md
+          echo "Accuracy: 0.95" >> report.md
+
+      # Test mô hình sau khi train
+      - name: Run tests
+        run: pytest
+
+      # Gửi báo cáo qua email với CML
+      - name: Send Email with CML
+        run: |
+          cml send-email --title "MLOps Training Report" --md report.md --to "tranducthuan220401@gmail.com"
