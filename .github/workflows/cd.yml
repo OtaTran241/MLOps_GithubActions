@@ -1,4 +1,4 @@
-name: CI/CD Pipeline with CML Email Notification
+name: CI/CD Pipeline 
 
 on: [push]
 
@@ -28,7 +28,7 @@ jobs:
           python src/train.py
           echo "# Training Report" > report.md
           echo "Mô hình đã được train xong với các thông số sau:" >> report.md
-          echo "Accuracy: 0.95" >> report.md
+          echo "Accuracy:" >> report.md
 
       # Test mô hình sau khi train
       - name: Run tests
