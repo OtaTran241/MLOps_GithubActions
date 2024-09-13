@@ -1,72 +1,46 @@
-# name: CI/CD Pipeline 
+name: CI/CD Pipeline 
 
-# on: [push]
-
-# jobs:
-#   train_and_test:
-#     runs-on: ubuntu-latest
-#     steps:
-#       # Checkout code 
-#       - name: Checkout code
-#         uses: actions/checkout@v3
-
-#       # Thiết lập Python
-#       - name: Set up Python
-#         uses: actions/setup-python@v4
-#         with:
-#           python-version: 3.9
-
-#       # Cài đặt các thư viện 
-#       - name: Install dependencies
-#         run: |
-#           pip install -r requirements.txt
-#           npm install -g @dvcorg/cml  # Cài đặt CML
-
-#       # Train model và log kết quả
-#       - name: Train Model and Log Results
-#         run: |
-#           python src/train.py
-#           echo "# Training Report" > report.md
-#           cat metrics.txt >> report.md
-#           echo "![](./residuals.png)" >> report.md
-#           cml comment create report.md
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }} 
-
-#       # Test model 
-#       - name: Run tests
-#         run: |
-#           python src/test.py
-#           echo "## Single test Results" >> report.md
-#           cat single_test.txt >> report.md
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}
-          
-
-#       # Gửi báo cáo qua email
-#       - name: Send Email with Report
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}
-#         run: |
-#           cml comment create report.md
-name: Run-Model-Wine-Quality-Traing
-run-name: ${{ github.actor }} is running training model 🚀
 on: [push]
+
 jobs:
-  Run-Training-Model:
+  train_and_test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-      - uses: iterative/setup-cml@v1
-      - name: Train model
+      # Checkout code 
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Thiết lập Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      # Cài đặt các thư viện 
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          npm install -g @dvcorg/cml  # Cài đặt CML
+
+      # Train model và log kết quả
+      - name: Train Model and Log Results
+        run: |
+          python src/train.py
+          echo "# Training Report" > report.md
+          cat metrics.txt >> report.md
+          echo "![](./residuals.png)" >> report.md
+
+      # Test model 
+      - name: Run tests
+        run: |
+          python src/test.py
+          echo "## Single test Results" >> report.md
+          cat single_test.txt >> report.md
+          
+
+      # Gửi báo cáo qua email
+      - name: Send Email with Report
         env:
           GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}
         run: |
-          pip install -r requirements.txt
-          python src/train.py
-
-          cat requirements.txt >> report.md
-          cat metrics.txt >> report.md
-          echo "![](./residuals.png)" >> report.md
           cml comment create report.md
