@@ -10,9 +10,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install CML
-        run: npm install -g @dvcorg/cml
-
       # Thiết lập Python
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -39,8 +36,10 @@ jobs:
           python src/test.py
           echo "## Single test Results" >> report.md
           cat single_test.txt >> report.md
-          
-
+      
+      - name: Check report.md content
+        run: cat report.md
+        
       # Gửi báo cáo qua email
       - name: Send Email with Report
         env:
