@@ -31,7 +31,7 @@ jobs:
           echo "![](./residuals.png)" >> report.md
           cml comment create report.md
         env:
-          CML_GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }} 
+          CML_GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}  
 
       # Test mô hình sau khi train
       - name: Run tests
