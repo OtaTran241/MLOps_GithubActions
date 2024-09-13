@@ -49,5 +49,5 @@ jobs:
           from: ${{ secrets.GMAIL_USERNAME }}
           to: 'tranducthuan220401@gmail.com'  
           subject: 'MLOps Training Report'
-          body: 'Please find the training report attached.'
+          body: 'Training report.'
           attachments: 'report.md'
