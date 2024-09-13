@@ -30,7 +30,7 @@ jobs:
           cat metrics.txt >> report.md
           echo "![](./residuals.png)" >> report.md
 
-      # Test mô hình sau khi train
+      # Test mô hình
       - name: Run tests
         run: |
           python src/test.py
