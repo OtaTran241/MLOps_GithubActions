@@ -24,14 +24,14 @@ jobs:
 
       # Train model và log kết quả
       - name: Train Model and Log Results
-        env:
-          CML_GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}
         run: |
           python src/train.py
           echo "# Training Report" > report.md
           cat metrics.txt >> report.md
           echo "![](./residuals.png)" >> report.md
           cml comment create report.md
+        env:
+          CML_GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}
 
       # Test mô hình sau khi train
       - name: Run tests
