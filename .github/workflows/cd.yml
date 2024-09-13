@@ -29,8 +29,9 @@ jobs:
           echo "# Training Report" > report.md
           cat metrics.txt >> report.md
           echo "![](./residuals.png)" >> report.md
+          cml comment create report.md
         env:
-          GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }} 
 
       # Test model 
       - name: Run tests
