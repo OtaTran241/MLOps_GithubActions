@@ -24,6 +24,8 @@ jobs:
 
       # Train model và log kết quả
       - name: Train Model and Log Results
+        env:
+          CML_GITHUB_TOKEN: ${{ secrets.CML_GITHUB_TOKEN }}
         run: |
           python src/train.py
           echo "# Training Report" > report.md
@@ -35,9 +37,8 @@ jobs:
       - name: Run tests
         run: |
           python src/test.py
-          echo "## Test Results" >> report.md
+          echo "## Single test Results" >> report.md
           cat single_test.txt >> report.md
-
 
       # Gửi báo cáo qua email với CML
       - name: Send Email with CML
