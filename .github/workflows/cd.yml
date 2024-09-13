@@ -44,4 +44,5 @@ jobs:
           REPO_TOKEN: ${{ secrets.TOKEN }}
         run: |
           cml comment create report.md
-          cml send-email --title "MLOps Training Report" --md report.md --to "tranducthuan220401@gmail.com"
+          
+          
