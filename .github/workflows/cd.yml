@@ -43,5 +43,4 @@ jobs:
       # Gửi báo cáo qua email với CML
       - name: Send Email with CML
         run: |
-          cml comment create report.md
-          cml send-email --title "MLOps Training Report" --md report.md --to "tranducthuan220401@gmail.com"
+          cml-send-comment report.md
