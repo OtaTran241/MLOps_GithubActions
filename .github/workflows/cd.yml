@@ -46,6 +46,7 @@ jobs:
           server_port: 587                
           username: ${{ secrets.EMAIL_USERNAME }}  
           password: ${{ secrets.EMAIL_PASSWORD }} 
+          from: ${{ secrets.GMAIL_USERNAME }}
           to: 'tranducthuan220401@gmail.com'  
           subject: 'MLOps Training Report'
           body: 'Please find the training report attached.'
