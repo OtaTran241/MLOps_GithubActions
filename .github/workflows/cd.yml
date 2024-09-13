@@ -39,14 +39,14 @@ jobs:
           
 
       # Gửi báo cáo qua email
-      - name: Send Email
+      - name: Send Email with Report
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: 'smtp.gmail.com' 
-          server_port: 587                
-          username: ${{ secrets.EMAIL_USERNAME }}  
-          password: ${{ secrets.EMAIL_PASSWORD }} 
-          from: ${{ secrets.GMAIL_USERNAME }}
+          server_port: 587             
+          username: ${{ secrets.GMAIL_USERNAME }} 
+          password: ${{ secrets.GMAIL_PASSWORD }} 
+          from: ${{ secrets.GMAIL_USERNAME }}  
           to: 'tranducthuan220401@gmail.com'  
           subject: 'MLOps Training Report'
           body: 'Training report.'
