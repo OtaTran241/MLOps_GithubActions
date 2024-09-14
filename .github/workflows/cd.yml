@@ -55,4 +55,5 @@ jobs:
           git checkout MLOps_test 
           git add report.md
           git commit -m "Add report to MLOps_test"
-          git push https://${{ secrets.TOKEN }}@github.com/***241/MLOps_GithubActions.git MLOps_test
+          git remote set-url origin https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git
+          git push origin MLOps_test
