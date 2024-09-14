@@ -7,17 +7,14 @@ jobs:
     runs-on: ubuntu-latest
     container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
-      # Checkout code 
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Cài đặt các thư viện 
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           npm install -g @dvcorg/cml 
 
-      # Train model và log kết quả
       - name: Train Model and Log Results
         run: |
           python src/train.py
