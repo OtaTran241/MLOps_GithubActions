@@ -73,6 +73,10 @@ jobs:
         run: |
           aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
 
+      - name: Check Kubernetes cluster info
+        run: |
+          kubectl cluster-info
+
       - name: Replace Docker Hub username in deployment.yml
         run: |
           sed -i 's|<DOCKER_HUB_USERNAME>|${{ secrets.DOCKER_HUB_USERNAME }}|g' k8s/deployment.yml
