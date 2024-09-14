@@ -44,30 +44,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code 
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Đăng nhập vào Docker Hub
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
-      # Build Docker image
       - name: Build Docker image
         run: |
           docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/mlops-demo:latest .
 
-      # Push Docker image to Docker Hub
       - name: Push Docker image
         run: |
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mlops-demo:latest
 
-      # Replace Docker Hub username in deployment.yml 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Update kubeconfig for EKS
+        run: |
+          aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
+
       - name: Replace Docker Hub username in deployment.yml
         run: |
           sed -i 's|<DOCKER_HUB_USERNAME>|${{ secrets.DOCKER_HUB_USERNAME }}|g' k8s/deployment.yml
 
-      # Deploy to Kubernetes
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f k8s/deployment.yml
