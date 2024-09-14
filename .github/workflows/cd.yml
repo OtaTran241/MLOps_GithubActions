@@ -38,11 +38,21 @@ jobs:
           echo "## Single test Results" >> report.md
           cat single_test.txt >> report.md
 
-      # Gửi báo cáo qua email
-      - name: Send Email with Report
+
+      - name: Report
         env:
           REPO_TOKEN: ${{ secrets.TOKEN }}
         run: |
           cml comment create report.md
-          
-          
+
+      - name: Commit Report to MLOps_test
+         env:
+          GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}  
+          GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}   
+        run: |  
+          git config --local user.email "${{ env.GIT_USER_EMAIL }}"  
+          git config --local user.name "${{ env.GIT_USER_NAME }}"  
+          git checkout MLOps_test 
+          git add reports/report.md
+          git commit -m "Add report to MLOps_test"
+          git push origin MLOps_test 
