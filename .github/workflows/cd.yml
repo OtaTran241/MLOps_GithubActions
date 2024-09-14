@@ -53,6 +53,6 @@ jobs:
           git config --local user.email "${{ env.GIT_USER_EMAIL }}"  
           git config --local user.name "${{ env.GIT_USER_NAME }}"  
           git checkout MLOps_test 
-          git add reports/report.md
+          git add report.md
           git commit -m "Add report to MLOps_test"
           git push origin MLOps_test 
