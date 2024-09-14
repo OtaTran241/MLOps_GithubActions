@@ -17,10 +17,9 @@ spec:
           image: <DOCKER_HUB_USERNAME>/mlops-demo:latest 
           ports:
             - containerPort: 5000
-          resources:
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
+          env:
+            - name: FLASK_ENV
+              value: production
 ---
 apiVersion: v1
 kind: Service
