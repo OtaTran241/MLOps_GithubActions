@@ -14,9 +14,13 @@ spec:
     spec:
       containers:
         - name: mlops-model
-          image: <DOCKER_HUB_USERNAME>/mlops-demo:latest   # Thay bằng Docker Hub username của bạn
+          image: <DOCKER_HUB_USERNAME>/mlops-demo:latest 
           ports:
             - containerPort: 5000
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
