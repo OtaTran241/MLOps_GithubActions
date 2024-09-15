@@ -1,6 +1,6 @@
 # MLOps Model Deployment
 
-This project demonstrates the deployment of a machine learning model using Flask, Docker, and Kubernetes. The model is trained on the Iris dataset and exposes a REST API for predictions.
+this MLOps project is an end-to-end pipeline for a Machine Learning model using GitHub Actions.
 
 ## CI/CD Pipeline Analysis
 
