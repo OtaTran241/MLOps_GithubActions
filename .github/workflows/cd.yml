@@ -62,25 +62,44 @@ jobs:
       - name: Checkout code 
         uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ secrets.AWS_REGION }}
+
+      # - name: Update kubeconfig for EKS
+      #   run: |
+      #     aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
+
+      # - name: Replace Docker Hub username in deployment.yml
+      #   run: |
+      #     sed -i 's|<DOCKER_HUB_USERNAME>|${{ secrets.DOCKER_HUB_USERNAME }}|g' k8s/deployment.yml
+
+      # - name: Deploy to Kubernetes
+      #   run: |
+      #     kubectl apply -f k8s/deployment.yml
+
+      # - name: Verify deployment
+      #   run: |
+      #     kubectl rollout status deployment/my-app
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ secrets.CLUSTER_IAM_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Update kubeconfig for EKS
-        run: |
-          aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
-
-      - name: Check Kubernetes cluster info
-        run: |
-          kubectl cluster-info
 
       - name: Replace Docker Hub username in deployment.yml
         run: |
           sed -i 's|<DOCKER_HUB_USERNAME>|${{ secrets.DOCKER_HUB_USERNAME }}|g' k8s/deployment.yml
 
-      - name: Deploy to Kubernetes
+      - name: Configure Kubernetes client
+        uses: silverlyra/setup-aws-eks@v0.1
+        with:
+          cluster: ekscluster
+
+      - name: Deploy service
         run: |
-          kubectl apply -f k8s/deployment.yml
+          kubectl apply -f ./deployment.yml
+          kubectl rollout status -f k8s/deployment.yml --timeout=15m
