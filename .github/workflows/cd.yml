@@ -62,44 +62,33 @@ jobs:
       - name: Checkout code 
         uses: actions/checkout@v3
 
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: ${{ secrets.AWS_REGION }}
-
-      # - name: Update kubeconfig for EKS
-      #   run: |
-      #     aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
-
-      # - name: Replace Docker Hub username in deployment.yml
-      #   run: |
-      #     sed -i 's|<DOCKER_HUB_USERNAME>|${{ secrets.DOCKER_HUB_USERNAME }}|g' k8s/deployment.yml
-
-      # - name: Deploy to Kubernetes
-      #   run: |
-      #     kubectl apply -f k8s/deployment.yml
-
-      # - name: Verify deployment
-      #   run: |
-      #     kubectl rollout status deployment/my-app
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v3
         with:
-          role-to-assume: ${{ secrets.CLUSTER_IAM_ROLE_ARN }}
+          version: 'v1.27.1' 
+        id: install
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Update kubeconfig for EKS
+        run: |
+          mkdir -p $HOME/.kube
+              echo "$KUBE_CONFIG_DATA" | base64 -d > $HOME/.kube/config
+              aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name  ${{ secrets.EKS_CLUSTER_NAME }}
 
       - name: Replace Docker Hub username in deployment.yml
         run: |
           sed -i 's|<DOCKER_HUB_USERNAME>|${{ secrets.DOCKER_HUB_USERNAME }}|g' k8s/deployment.yml
 
-      - name: Configure Kubernetes client
-        uses: silverlyra/setup-aws-eks@v0.1
-        with:
-          cluster: ekscluster
-
-      - name: Deploy service
+      - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f ./deployment.yml
-          kubectl rollout status -f k8s/deployment.yml --timeout=15m
+          kubectl apply -f k8s/deployment.yml
+
+      - name: Verify deployment
+        run: |
+          kubectl rollout status deployment/my-app
