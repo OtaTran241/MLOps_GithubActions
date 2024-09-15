@@ -1,6 +1,8 @@
 flask
 scikit-learn
-pytest
 numpy
 comet_ml
 mlflow
+seaborn
+matplotlib
+numpy

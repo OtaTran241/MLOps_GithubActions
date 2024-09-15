@@ -1,40 +1,94 @@
-name: CI/CD Pipeline with CML Email Notification
+name: CI/CD Pipeline 
 
 on: [push]
 
 jobs:
   train_and_test:
     runs-on: ubuntu-latest
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
-      # Checkout code từ GitHub
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # Thiết lập Python
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-
-      # Cài đặt các thư viện phụ thuộc
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          npm install -g @dvcorg/cml  # Cài đặt CML
+          npm install -g @dvcorg/cml 
 
-      # Train model và log kết quả
       - name: Train Model and Log Results
         run: |
           python src/train.py
           echo "# Training Report" > report.md
-          echo "Mô hình đã được train xong với các thông số sau:" >> report.md
-          echo "Accuracy: 0.95" >> report.md
+          cat metrics.txt >> report.md
+          echo "![](./residuals.png)" >> report.md
 
-      # Test mô hình sau khi train
+      # Test model 
       - name: Run tests
-        run: pytest
-
-      # Gửi báo cáo qua email với CML
-      - name: Send Email with CML
         run: |
-          cml send-email --title "MLOps Training Report" --md report.md --to "tranducthuan220401@gmail.com"
+          python src/test.py
+          echo "## Single test Results" >> report.md
+          cat single_test.txt >> report.md
+
+
+      - name: Report
+        env:
+          REPO_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          cml comment create report.md
+
+  build:
+    needs: train_and_test 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/mlops-demo:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mlops-demo:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code 
+        uses: actions/checkout@v3
+
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.27.1' 
+        id: install
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Update kubeconfig for EKS
+        run: |
+          mkdir -p $HOME/.kube
+              echo "$KUBE_CONFIG_DATA" | base64 -d > $HOME/.kube/config
+              aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name  ${{ secrets.EKS_CLUSTER_NAME }}
+
+      - name: Replace Docker Hub username in deployment.yml
+        run: |
+          sed -i 's|<DOCKER_HUB_USERNAME>|${{ secrets.DOCKER_HUB_USERNAME }}|g' k8s/deployment.yml
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/deployment.yml
+
+      - name: Verify deployment
+        run: |
+          kubectl rollout status deployment/my-app
