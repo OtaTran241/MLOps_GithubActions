@@ -11,7 +11,7 @@ The `train.py` script performs the following tasks:
 1. **Data Preparation**: Loads the dataset, handles missing values, and encodes categorical features.
 2. **Feature and Target Variable Extraction**: Separates features from the target variable.
 3. **Data Splitting**: Divides the data into training and testing sets.
-4. **Model Selection and Hyperparameter Tuning**: Evaluates multiple classifiers with different hyperparameters using grid search to optimize for recall.
+4. **Model Selection and Hyperparameter Tuning**: Evaluates multiple classifiers with different hyperparameters using grid search to optimize for recall.  
    -Recall was selected as the primary evaluation metric for our model because it is crucial for detecting all relevant instances of churn, especially in an imbalanced dataset. By optimizing recall, we ensure that we identify as many at-risk customers as possible, which helps in effective customer retention and minimizes the impact of churn on the business.
 5. **Model Training**: Trains the best-performing model based on recall.
 6. **Evaluation**: Assesses model performance using various metrics and saves evaluation results and visualizations.
