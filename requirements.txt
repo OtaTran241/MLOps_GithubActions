@@ -6,3 +6,4 @@ mlflow
 seaborn
 matplotlib
 numpy
+catboost
