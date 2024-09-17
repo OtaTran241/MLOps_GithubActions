@@ -2,6 +2,19 @@
 
 this MLOps project is an end-to-end pipeline for a Machine Learning model using GitHub Actions.
 
+## Customer Churn Prediction Model
+
+This repository contains code for training a machine learning model to predict customer churn using a dataset of bank customers. The goal is to identify customers who are likely to churn, allowing for targeted retention strategies.
+
+The `train.py` script performs the following tasks:
+
+1. **Data Preparation**: Loads the dataset, handles missing values, and encodes categorical features.
+2. **Feature and Target Variable Extraction**: Separates features from the target variable.
+3. **Data Splitting**: Divides the data into training and testing sets.
+4. **Model Selection and Hyperparameter Tuning**: Evaluates multiple classifiers with different hyperparameters using grid search to optimize for recall.
+5. **Model Training**: Trains the best-performing model based on recall.
+6. **Evaluation**: Assesses model performance using various metrics and saves evaluation results and visualizations.
+
 ## CI/CD Pipeline Analysis
 
 The CI/CD pipeline defined in `.github/workflows/cd.yml` automates the process of training, testing, building, and deploying the machine learning model. Here’s a breakdown of the key components:
