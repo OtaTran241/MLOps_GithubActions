@@ -15,11 +15,19 @@ The pipeline consists of three main jobs:
 #### a. **train_and_test**
 - **Environment**: Runs on `ubuntu-latest` using a Docker container.
 - **Steps**:
-  - **Checkout code**: Retrieves the latest code from the repository.
-  - **Install dependencies**: Installs Python and Node.js dependencies.
-  - **Train Model and Log Results**: Executes the training script and logs the results into a report.
-  - **Run tests**: Executes the test script and appends results to the report.
-  - **Report**: Uses CML to comment on the report in the pull request.
+  - **Checkout Code**: Checks out the repository code.
+  - **Install Dependencies**: Installs required Python packages and CML.
+  - **Train Model and Log Results**: 
+    - Trains the model using various classifiers and scalers.
+    - Selects the best model based on recall score.
+        - Recall was selected as the primary evaluation metric for our model because it is crucial for detecting all relevant instances of churn, especially in an imbalanced dataset. By optimizing recall, we ensure that we identify as many at-risk customers as possible, which helps in effective customer retention and minimizes the impact of churn on the business.
+    - Saves the trained model to `models/model.pkl`.
+    - Logs metrics, including training and test scores, best recall score, and best threshold, to `metrics.txt`.
+    - Generates and saves confusion matrix and classification report as images.
+  - **Run Tests**:
+    - Executes unit tests to ensure the functionality of the code.
+    - Logs the results of single test cases to `single_test.txt`.
+  - **Report**: Uses CML to comment on the training report.
 
 #### b. **build**
 - **Dependencies**: This job depends on the successful completion of the `train_and_test` job.
