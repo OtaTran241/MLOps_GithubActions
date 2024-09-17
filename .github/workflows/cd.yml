@@ -20,15 +20,14 @@ jobs:
           python src/train.py
           echo "# Training Report" > report.md
           cat metrics.txt >> report.md
-          echo "![](./residuals.png)" >> report.md
+          echo "![](./confusion_matrix.png)" >> report.md
+          echo "![](./classification_report.png)" >> report.md
 
-      # Test model 
       - name: Run tests
         run: |
           python src/test.py
           echo "## Single test Results" >> report.md
           cat single_test.txt >> report.md
-
 
       - name: Report
         env:
