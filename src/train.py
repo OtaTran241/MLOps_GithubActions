@@ -17,7 +17,7 @@ import seaborn as sns
 import os
 import pickle
 
-df = pd.read_csv('/data/Bank_Customer_Churn_Prediction.csv')
+df = pd.read_csv('data/Bank_Customer_Churn_Prediction.csv')
 
 na_rows = df[df.isna().any(axis=1)]
 na_rows.shape[0]
