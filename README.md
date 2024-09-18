@@ -1,6 +1,6 @@
 # MLOps Model Deployment
 
-this MLOps project is an end-to-end pipeline for a Machine Learning model using GitHub Actions.
+This MLOps project is an end-to-end pipeline for a Machine Learning model using GitHub Actions.
 
 ## Customer Churn Prediction Model
 
