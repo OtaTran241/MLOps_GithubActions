@@ -18,15 +18,11 @@ jobs:
           pip install -r requirements.txt
           npm install -g @dvcorg/cml 
 
-      - name: Run tests
+      - name: Run unittest
         run: |
-          python src/unittest_before_train.py
-
-      - name: 1
-        run: echo "# Testing before train Results" > report.md
-      
-      - name: 1
-        run: cat test_results_before_train.txt >> report.md
+          python src/train.py
+          echo "# Testing before train Results" > report.md
+          cat test_results_before_train.txt >> report.md
 
       - name: Report
         env:
@@ -75,7 +71,7 @@ jobs:
           pip install -r requirements.txt
           npm install -g @dvcorg/cml 
 
-      - name: Run tests
+      - name: Run unittest
         run: |
           python src/unittest_after_train.py
           
