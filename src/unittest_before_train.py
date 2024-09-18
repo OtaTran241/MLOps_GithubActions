@@ -13,6 +13,7 @@ class TestBeforeTrain(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """ Setup method for loading and preprocessing the dataset. """
+
         cls.df = pd.read_csv('data/Bank_Customer_Churn_Prediction.csv')
         cls.label_country_encoder = LabelEncoder()
         cls.df['country'] = cls.label_country_encoder.fit_transform(cls.df['country'])
@@ -24,13 +25,16 @@ class TestBeforeTrain(unittest.TestCase):
 
     def test_data_encoding(self):
         """ Test to verify if the data encoding with LabelEncoder is applied correctly. """
+
         self.assertIn('country', self.df.columns)
         self.assertIn('gender', self.df.columns)
-        self.assertTrue(self.df['country'].dtype == 'int32')
-        self.assertTrue(self.df['gender'].dtype == 'int32')
+
+        self.assertTrue(pd.api.types.is_integer_dtype(self.df['country']))
+        self.assertTrue(pd.api.types.is_integer_dtype(self.df['gender']))
 
     def test_grid_search(self):
         """ Test the performance of GridSearchCV for model hyperparameter tuning. """
+
         stratified_kfold = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
         recall_scorer = make_scorer(recall_score)
 
@@ -57,6 +61,7 @@ class TestBeforeTrain(unittest.TestCase):
 
     def test_f05_threshold(self):
         """ Test the calculation of the optimal threshold based on the f0.5 score. """
+
         model = LogisticRegression(max_iter=1000).fit(self.X_train, self.y_train)
         y_train_proba = model.predict_proba(self.X_train)[:, 1]
 
@@ -76,6 +81,7 @@ class TestBeforeTrain(unittest.TestCase):
 
     def test_model_saving_loading(self):
         """ Test the saving and loading of the trained model. """
+
         model = LogisticRegression(max_iter=1000)
         model.fit(self.X_train, self.y_train)
         
