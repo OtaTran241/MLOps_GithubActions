@@ -20,6 +20,8 @@ jobs:
       - name: Run tests
         run: |
           python src/unittest_before_train.py
+
+          echo "## Testing before train Results" > report.md
           cat test_results_before_train.txt >> report.md
 
       - name: Report
@@ -44,6 +46,7 @@ jobs:
       - name: Train Model and Log Results
         run: |
           python src/train.py
+
           echo "# Training Report" > report.md
           cat metrics.txt >> report.md
           echo "![](./confusion_matrix.png)" >> report.md
@@ -71,6 +74,7 @@ jobs:
       - name: Run tests
         run: |
           python src/unittest_after_train.py
+          
           echo "## Testing after train Results" > report.md
           cat test_results_after_train.txt >> report.md
 
