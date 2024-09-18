@@ -30,6 +30,12 @@ class ChurnPredictionModel:
         self.stratified_kfold = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
         self.recall_scorer = make_scorer(recall_score)
         self.precision_scorer = make_scorer(precision_score)
+    
+    def get_X_test(self):
+        return self.X_test
+    
+    def get_y_test(self):
+        return self.y_test
 
     def _encode_labels(self):
         """Encode categorical features using LabelEncoder."""
