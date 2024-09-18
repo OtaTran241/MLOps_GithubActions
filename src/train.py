@@ -78,7 +78,7 @@ for classifier_name, (classifier, param_grid) in classifiers.items():
         if mean_recall > best_recall:
             best_recall = mean_recall
             best_classifier = classifier_name
-            best_scaler_ = scaler_name
+            best_scaler = scaler_name
             best_params = grid_search_recall.best_params_
 
 best_model = classifiers[best_classifier][0]
