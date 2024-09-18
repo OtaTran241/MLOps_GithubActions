@@ -6,8 +6,32 @@ on:
       - README.md
 
 jobs:
+  test_before_train:
+    runs-on: ubuntu-latest
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          npm install -g @dvcorg/cml 
+
+      - name: Run tests
+        run: |
+          python /src/unittest_before_train.py
+          echo "## Testing before train Results" > report.md
+          cat test_results_before_train.txt >> report.md
+
+      - name: Report
+        env:
+          REPO_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          cml comment create report.md
 
   train:
+    needs: test_before_train
     runs-on: ubuntu-latest
     container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
