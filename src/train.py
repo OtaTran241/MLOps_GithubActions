@@ -99,8 +99,10 @@ train_score = best_churn_model.score(X_train, y_train) * 100
 test_score = best_churn_model.score(X_test, y_test) * 100
 
 y_train_proba = best_churn_model.predict_proba(X_train)[:, 1]
+
 best_f05_score = 0
 best_threshold = 0
+
 for i in range(10000):
     y_pred_thresholded = (y_train_proba >= i/10000).astype(int)
     f05= fbeta_score(y_train, y_pred_thresholded, beta=0.5)
