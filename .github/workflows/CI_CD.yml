@@ -5,7 +5,32 @@ on:
     paths-ignore:
       - README.md
 jobs:
-  train_and_test:
+  test_before_train:
+    runs-on: ubuntu-latest
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          npm install -g @dvcorg/cml 
+
+      - name: Run tests
+        run: |
+          python src/unittest_before_train.py
+          echo "## Test before train Results" >> report.md
+          cat test_results_before_train.txt >> report.md
+
+      - name: Report
+        env:
+          REPO_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          cml comment create report.md
+
+  train:
+    needs: test_before_train
     runs-on: ubuntu-latest
     container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
@@ -25,11 +50,30 @@ jobs:
           echo "![](./confusion_matrix.png)" >> report.md
           echo "![](./classification_report.png)" >> report.md
 
+      - name: Report
+        env:
+          REPO_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          cml comment create report.md
+
+  test_after_train:
+    needs: train
+    runs-on: ubuntu-latest
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          npm install -g @dvcorg/cml 
+
       - name: Run tests
         run: |
-          python src/test.py
-          echo "## Test Results" >> report.md
-          cat test_results.txt >> report.md
+          python src/unittest_after_train.py
+          echo "## Test after train Results" >> report.md
+          cat test_results_after_train.txt >> report.md
 
       - name: Report
         env:
@@ -38,7 +82,7 @@ jobs:
           cml comment create report.md
 
   build:
-    needs: train_and_test 
+    needs: test_after_train
     runs-on: ubuntu-latest
 
     steps:

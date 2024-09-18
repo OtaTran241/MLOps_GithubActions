@@ -10,7 +10,6 @@ from sklearn.linear_model import LogisticRegression
 from train import classifiers, scalers
 
 class TestMLPipeline(unittest.TestCase):
-    @classmethod
     def setUpClass(cls):
         """ Setup method for loading and preprocessing the dataset. """
 
@@ -92,6 +91,6 @@ class TestMLPipeline(unittest.TestCase):
         os.remove('models/test_model.pkl')
 
 if __name__ == '__main__':
-    with open('test_results.txt', 'w') as f:
+    with open('test_results_before_train.txt', 'w') as f:
         runner = unittest.TextTestRunner(f, verbosity=2)
         unittest.main(testRunner=runner)
