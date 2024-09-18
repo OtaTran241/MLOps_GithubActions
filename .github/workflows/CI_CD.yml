@@ -20,7 +20,7 @@ jobs:
       - name: Run unittest
         run: |
           python src/unittest_before_train.py
-          
+
           echo "# Testing before train Results" > report.md
           cat test_results_before_train.txt >> report.md
 
@@ -41,7 +41,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          npm install -g @dvcorg/cml 
 
       - name: Train Model and Log Results
         run: |
@@ -69,7 +68,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          npm install -g @dvcorg/cml 
 
       - name: Run unittest
         run: |
