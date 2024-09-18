@@ -2,6 +2,7 @@ flask
 scikit-learn
 numpy
 pandas
+unittest
 seaborn
 matplotlib
 catboost
