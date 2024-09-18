@@ -5,13 +5,14 @@ from sklearn.metrics import confusion_matrix, classification_report
 from train import ChurnPredictionModel
 
 class TestAfterTrain(unittest.TestCase):
-    def __init__(self):
+    @classmethod
+    def __init__(cls):
         """Initialize the test case with the trained model."""
 
         model = ChurnPredictionModel(data_path='data/Bank_Customer_Churn_Prediction.csv')
 
-        self.X_test = model.get_X_test()
-        self.y_test = model.get_y_test()
+        cls.X_test = model.get_X_test()
+        cls.y_test = model.get_y_test()
 
     def test_model_file_exists(self):
         """Test if the trained model has been saved correctly."""
