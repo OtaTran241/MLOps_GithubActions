@@ -1,7 +1,9 @@
 name: CI/CD Pipeline 
 
-on: [push]
-
+on:
+  push:
+    paths-ignore:
+      - README.md
 jobs:
   train_and_test:
     runs-on: ubuntu-latest
