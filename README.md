@@ -24,7 +24,7 @@ The CI/CD pipeline defined in `.github/workflows/CI_CD.yml` automates the proces
 - The pipeline is triggered on every push to the repository.
 
 ### 2. **Jobs**
-The pipeline consists of three main jobs:
+The pipeline consists of five main jobs:
 
 #### a. **test_before_train**
 - **Environment**: Runs on `ubuntu-latest` using a Docker container.
