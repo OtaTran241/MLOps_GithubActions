@@ -26,25 +26,45 @@ The CI/CD pipeline defined in `.github/workflows/CI_CD.yml` automates the proces
 ### 2. **Jobs**
 The pipeline consists of three main jobs:
 
-#### a. **train_and_test**
+#### a. **test_before_train**
 - **Environment**: Runs on `ubuntu-latest` using a Docker container.
 - **Steps**:
   - **Checkout Code**: Checks out the repository code.
   - **Install Dependencies**: Installs required Python packages and CML.
-  - **Train Model and Log Results**: 
-    - Trains the model using various classifiers and scalers.
-    - Selects the best model based on recall score.
-    - Saves the trained model to `models/model.pkl`.
-    - Logs metrics, including training and test scores, best recall score, and best threshold, to `metrics.txt`.
-    - Generates and saves confusion matrix and classification report as images.
-  - **Run Tests**:
+  - **Run Unittest before train and log Results**: 
     - Ensures that categorical data (`country` and `gender`) is correctly encoded using `LabelEncoder`.
     - Tests grid search functionality for tuning hyperparameters of classifiers.
     - Validates f0.5 score and optimal classification threshold.
     - Confirms that the model can be saved and loaded from a pickle file correctly.
   - **Report**: Uses CML to comment on the training report.
+   
+#### b. **train**
+- **Environment**: Runs on `ubuntu-latest` using a Docker container.
+- **Steps**:
+  - **Checkout Code**: Checks out the repository code.
+  - **Install Dependencies**: Installs required Python packages and CML.
+  - **Run Train and log Results**: 
+    - Trains the model using various classifiers and scalers.
+    - Selects the best model based on recall score.
+    - Saves the trained model to `models/model.pkl`.
+    - Logs metrics, including training and test scores, best recall score, and best threshold, to `metrics.txt`.
+    - Generates and saves confusion matrix and classification report as images.
+   
+#### c. **test_after_train**
+- **Environment**: Runs on `ubuntu-latest` using a Docker container.
+- **Steps**:
+  - **Checkout Code**: Checks out the repository code.
+  - **Install Dependencies**: Installs required Python packages and CML.
+  - **Run Unittest after train and log Results**:
+   - Checks if the trained model file `models/model.pkl` is saved correctly.
+   - Ensures the saved model can be loaded and used for predictions, with output matching the number of test samples.
+   - Validates the computation and shape of the confusion matrix.
+   - Confirms that the classification report includes all necessary metrics for each class and overall.
+   - Ensures the metrics file `metrics.txt` is generated.
+   - Verifies that the threshold for the f0.5 score is within the valid range [0, 1].
+  - **Report**: Uses CML to comment on the training report.
 
-#### b. **build**
+#### d. **build**
 - **Dependencies**: This job depends on the successful completion of the `train_and_test` job.
 - **Steps**:
   - **Checkout code**: Retrieves the latest code.
@@ -52,7 +72,7 @@ The pipeline consists of three main jobs:
   - **Build Docker image**: Builds a Docker image for the application.
   - **Push Docker image**: Pushes the built image to Docker Hub.
 
-#### c. **deploy**
+#### e. **deploy**
 - **Dependencies**: This job depends on the successful completion of the `build` job.
 - **Steps**:
   - **Checkout code**: Retrieves the latest code.
