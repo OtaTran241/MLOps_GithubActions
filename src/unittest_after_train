@@ -5,7 +5,6 @@ from sklearn.metrics import confusion_matrix, classification_report
 from train import X_test, y_test
 
 class TestAfterTrain(unittest.TestCase):
-
     def test_model_file_exists(self):
         """Test if the trained model has been saved correctly."""
 

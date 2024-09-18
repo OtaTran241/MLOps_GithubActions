@@ -5,7 +5,7 @@ on:
     paths-ignore:
       - README.md
 jobs:
-  unittest_before_train:
+  test_before_train:
     runs-on: ubuntu-latest
     container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
@@ -30,7 +30,7 @@ jobs:
           cml comment create report.md
 
   train:
-    needs: unittest_before_train
+    needs: test_before_train
     runs-on: ubuntu-latest
     container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
@@ -56,7 +56,7 @@ jobs:
         run: |
           cml comment create report.md
 
-  unittest_after_train:
+  test_after_train:
     needs: train
     runs-on: ubuntu-latest
     container: docker://ghcr.io/iterative/cml:0-dvc2-base1
@@ -82,7 +82,7 @@ jobs:
           cml comment create report.md
 
   build:
-    needs: unittest_after_train
+    needs: test_after_train
     runs-on: ubuntu-latest
 
     steps:

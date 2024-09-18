@@ -10,7 +10,6 @@ from sklearn.linear_model import LogisticRegression
 from train import classifiers, scalers
 
 class TestMLPipeline(unittest.TestCase):
-    @classmethod
     def setUpClass(cls):
         """ Setup method for loading and preprocessing the dataset. """
 
