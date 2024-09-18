@@ -20,13 +20,14 @@ jobs:
       - name: Run tests
         run: |
           python src/unittest_before_train.py
-          cat test_results_before_train.txt >> report_test_before_train.md
+          echo "## Testing before train Results" > report.md
+          cat test_results_before_train.txt >> report.md
 
       - name: Report
         env:
           REPO_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          cml comment create report_test_before_train.md
+          cml comment create report.md
 
   train:
     needs: test_before_train
@@ -45,15 +46,15 @@ jobs:
         run: |
           python src/train.py
           echo "# Training Report" > report.md
-          cat metrics.txt >> report_train.md
-          echo "![](./confusion_matrix.png)" >> report_train.md
-          echo "![](./classification_report.png)" >> report_train.md
+          cat metrics.txt >> report.md
+          echo "![](./confusion_matrix.png)" >> report.md
+          echo "![](./classification_report.png)" >> report.md
 
       - name: Report
         env:
           REPO_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          cml comment create report_train.md
+          cml comment create report.md
 
   test_after_train:
     needs: train
@@ -71,13 +72,14 @@ jobs:
       - name: Run tests
         run: |
           python src/unittest_after_train.py
-          cat test_results_after_train.txt >> report_test_after_train.md
+          echo "## Testing after train Results" > report.md
+          cat test_results_after_train.txt >> report.md
 
       - name: Report
         env:
           REPO_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          cml comment create report_test_after_train.md
+          cml comment create report.md
 
   build:
     needs: test_after_train
