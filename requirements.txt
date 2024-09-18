@@ -1,7 +1,7 @@
 flask
 scikit-learn
 numpy
-comet_ml
+pandas
 seaborn
 matplotlib
 catboost
