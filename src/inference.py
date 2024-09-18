@@ -4,7 +4,6 @@ import numpy as np
 
 app = Flask(__name__)
 
-# Load model
 with open('models/model.pkl', 'rb') as f:
     model = pickle.load(f)
 
