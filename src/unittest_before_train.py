@@ -7,7 +7,7 @@ from sklearn.metrics import fbeta_score, recall_score, make_scorer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
 from sklearn.linear_model import LogisticRegression
-from train import classifiers, scalers
+from train import ChurnPredictionModel
 
 class TestMLPipeline(unittest.TestCase):
     def setUpClass(cls):
@@ -36,6 +36,11 @@ class TestMLPipeline(unittest.TestCase):
         stratified_kfold = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
         recall_scorer = make_scorer(recall_score)
 
+        model = ChurnPredictionModel(data_path='data/Bank_Customer_Churn_Prediction.csv')
+
+        classifiers = model.get_classifiers()
+        scalers = model.get_scalers()
+
         classifier_name, (classifier, param_grid) = 'Logistic Regression', classifiers['Logistic Regression']
         scaler = scalers['Standard Scaler']
         
@@ -50,6 +55,7 @@ class TestMLPipeline(unittest.TestCase):
         best_recall = grid_search.best_score_
         self.assertGreaterEqual(best_recall, 0)
         self.assertIsNotNone(grid_search.best_params_)
+        self.assertIn('classifier__C', grid_search.best_params_)
 
     def test_f05_threshold(self):
         """ Test the calculation of the optimal threshold based on the f0.5 score. """
