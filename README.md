@@ -38,8 +38,10 @@ The pipeline consists of three main jobs:
     - Logs metrics, including training and test scores, best recall score, and best threshold, to `metrics.txt`.
     - Generates and saves confusion matrix and classification report as images.
   - **Run Tests**:
-    - Executes unit tests to ensure the functionality of the code.
-    - Logs the results of single test cases to `single_test.txt`.
+    - Ensures that categorical data (`country` and `gender`) is correctly encoded using `LabelEncoder`.
+    - Tests grid search functionality for tuning hyperparameters of classifiers.
+    - Validates f0.5 score and optimal classification threshold.
+    - Confirms that the model can be saved and loaded from a pickle file correctly.
   - **Report**: Uses CML to comment on the training report.
 
 #### b. **build**
