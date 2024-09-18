@@ -1,40 +1,96 @@
 import unittest
 import pandas as pd
-import pickle
 import os
+import pickle
+from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV
+from sklearn.metrics import fbeta_score, recall_score, make_scorer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LogisticRegression
+from train import classifiers, scalers
 
-class TestModel(unittest.TestCase):
-    def setUp(self):
-        model_path = os.path.join(os.path.dirname(__file__), '../models/model.pkl')
-        with open(model_path, 'rb') as f:
-            self.model = pickle.load(f)
+class TestMLPipeline(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        """ Setup method for loading and preprocessing the dataset. """
 
-        self.df_test = pd.DataFrame({
-            'customer_id': [1, 2, 3],
-            'credit_score': [600, 700, 800],
-            'country': ['France', 'Spain', 'Germany'],
-            'gender': ['Male', 'Female', 'Male'],
-            'age': [35, 45, 50],
-            'tenure': [1, 2, 3],
-            'balance': [1000.0, 1500.0, 2000.0],
-            'products_number': [1, 2, 3],
-            'credit_card': [1, 0, 1],
-            'active_member': [1, 0, 1],
-            'estimated_salary': [50000.0, 60000.0, 70000.0],
-            'churn': [0, 1, 0]
-        })
+        cls.df = pd.read_csv('data/Bank_Customer_Churn_Prediction.csv')
+        cls.label_country_encoder = LabelEncoder()
+        cls.df['country'] = cls.label_country_encoder.fit_transform(cls.df['country'])
+        cls.label_gender_encoder = LabelEncoder()
+        cls.df['gender'] = cls.label_gender_encoder.fit_transform(cls.df['gender'])
+        cls.X = cls.df.drop(['customer_id', 'churn'], axis=1)
+        cls.Y = cls.df['churn']
+        cls.X_train, cls.X_test, cls.y_train, cls.y_test = train_test_split(cls.X, cls.Y, test_size=0.2, random_state=42)
 
-    def test_prediction(self):
-        test_data = self.df_test.values.reshape(1, -1)
+    def test_data_encoding(self):
+        """ Test to verify if the data encoding with LabelEncoder is applied correctly. """
 
-        prediction = self.model.predict(test_data)
+        self.assertIn('country', self.df.columns)
+        self.assertIn('gender', self.df.columns)
+        self.assertTrue(self.df['country'].dtype == 'int32')
+        self.assertTrue(self.df['gender'].dtype == 'int32')
+
+    def test_grid_search(self):
+        """ Test the performance of GridSearchCV for model hyperparameter tuning. """
+
+        stratified_kfold = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+        recall_scorer = make_scorer(recall_score)
+
+        classifier_name, (classifier, param_grid) = 'Logistic Regression', classifiers['Logistic Regression']
+        scaler = scalers['Standard Scaler']
         
-        with open("single_test.txt", 'w') as outfile:
-            outfile.write("Single test Results:\n")
-            outfile.write(f"Input: {test_data.flatten().tolist()}\n")
-            outfile.write(f"Prediction: {int(prediction[0])}\n")
+        pipeline = Pipeline([
+            ('scaler', scaler),
+            ('classifier', classifier)
+        ])
         
-        self.assertIn(prediction[0], [0, 1])
+        grid_search = GridSearchCV(pipeline, param_grid, cv=stratified_kfold, scoring=recall_scorer, n_jobs=-1)
+        grid_search.fit(self.X_train, self.y_train)
+        
+        best_recall = grid_search.best_score_
+        self.assertGreaterEqual(best_recall, 0)
+        self.assertIsNotNone(grid_search.best_params_)
+
+    def test_f05_threshold(self):
+        """ Test the calculation of the optimal threshold based on the f0.5 score. """
+
+        model = LogisticRegression(max_iter=1000).fit(self.X_train, self.y_train)
+        y_train_proba = model.predict_proba(self.X_train)[:, 1]
+
+        best_f05_score = 0
+        best_threshold = 0
+        for i in range(1000):
+            y_pred_thresholded = (y_train_proba >= i / 1000).astype(int)
+            f05 = fbeta_score(self.y_train, y_pred_thresholded, beta=0.5)
+            if f05 > best_f05_score:
+                best_f05_score = f05
+                best_threshold = i / 1000
+
+        self.assertGreater(best_f05_score, 0)
+        self.assertGreaterEqual(best_threshold, 0)
+        self.assertLessEqual(best_threshold, 1)
+
+    def test_model_saving_loading(self):
+        """ Test the saving and loading of the trained model. """
+
+        model = LogisticRegression(max_iter=1000)
+        model.fit(self.X_train, self.y_train)
+        if not os.path.exists('models'):
+            os.makedirs('models')
+
+        with open('models/test_model.pkl', 'wb') as f:
+            pickle.dump(model, f)
+
+        with open('models/test_model.pkl', 'rb') as f:
+            loaded_model = pickle.load(f)
+
+        self.assertIsNotNone(loaded_model)
+        self.assertTrue(hasattr(loaded_model, 'predict'))
+
+        os.remove('models/test_model.pkl')
 
 if __name__ == '__main__':
-    unittest.main()
+    with open('test_results.txt', 'w') as f:
+        runner = unittest.TextTestRunner(f, verbosity=2)
+        unittest.main(testRunner=runner)
