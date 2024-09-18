@@ -56,12 +56,12 @@ The pipeline consists of three main jobs:
   - **Checkout Code**: Checks out the repository code.
   - **Install Dependencies**: Installs required Python packages and CML.
   - **Run Unittest after train and log Results**:
-   - Checks if the trained model file `models/model.pkl` is saved correctly.
-   - Ensures the saved model can be loaded and used for predictions, with output matching the number of test samples.
-   - Validates the computation and shape of the confusion matrix.
-   - Confirms that the classification report includes all necessary metrics for each class and overall.
-   - Ensures the metrics file `metrics.txt` is generated.
-   - Verifies that the threshold for the f0.5 score is within the valid range [0, 1].
+    - Checks if the trained model file `models/model.pkl` is saved correctly.
+    - Ensures the saved model can be loaded and used for predictions, with output matching the number of test samples.
+    - Validates the computation and shape of the confusion matrix.
+    - Confirms that the classification report includes all necessary metrics for each class and overall.
+    - Ensures the metrics file `metrics.txt` is generated.
+    - Verifies that the threshold for the f0.5 score is within the valid range [0, 1].
   - **Report**: Uses CML to comment on the training report.
 
 #### d. **build**
