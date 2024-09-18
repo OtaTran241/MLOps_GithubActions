@@ -76,6 +76,7 @@ class TestMLPipeline(unittest.TestCase):
 
         model = LogisticRegression(max_iter=1000)
         model.fit(self.X_train, self.y_train)
+        
         if not os.path.exists('models'):
             os.makedirs('models')
 
