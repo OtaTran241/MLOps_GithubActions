@@ -21,7 +21,12 @@ jobs:
       - name: Run tests
         run: |
           python src/unittest_before_train.py
-          echo "# Testing before train Results" > report.md
+
+      - name: 1
+        run: echo "# Testing before train Results" > report.md
+      
+      - name: 1
+        run: cat test_results_before_train.txt >> report.md
 
       - name: Report
         env:
