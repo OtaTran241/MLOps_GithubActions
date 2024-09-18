@@ -4,6 +4,7 @@ on:
   push:
     paths-ignore:
       - README.md
+
 jobs:
   test_before_train:
     runs-on: ubuntu-latest
@@ -20,7 +21,6 @@ jobs:
       - name: Run tests
         run: |
           python src/unittest_before_train.py
-
           echo "## Testing before train Results" > report.md
           cat test_results_before_train.txt >> report.md
 
