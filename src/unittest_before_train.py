@@ -21,7 +21,7 @@ class TestBeforeTrain(unittest.TestCase):
         cls.df['gender'] = cls.label_gender_encoder.fit_transform(cls.df['gender'])
         cls.X = cls.df.drop(['customer_id', 'churn'], axis=1)
         cls.Y = cls.df['churn']
-        cls.X_train, cls.X_test, cls.y_train, cls.y_test = train_test_split(cls.X, cls.Y, test_size=0.2, random_state=42)
+        cls.X_train, cls.X_test, cls.y_train, cls.y_test = train_test_split(cls.X, cls.Y, test_size=0.2, stratify=cls.Y, random_state=42)
 
     def test_data_encoding(self):
         """ Test to verify if the data encoding with LabelEncoder is applied correctly. """
