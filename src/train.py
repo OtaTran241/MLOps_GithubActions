@@ -25,7 +25,7 @@ class ChurnPredictionModel:
         self._encode_labels()
         self.X = self.df.drop(['customer_id', 'churn'], axis=1)
         self.Y = self.df['churn']
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.Y, test_size=0.2, random_state=42)
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.Y, test_size=0.2, stratify=self.Y, random_state=42)
         self._initialize_classifiers_and_scalers()
         self.stratified_kfold = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
         self.recall_scorer = make_scorer(recall_score)
@@ -78,7 +78,7 @@ class ChurnPredictionModel:
     def grid_search_for_best_model(self):
         """Perform grid search with cross-validation to find the best classifier and scaler."""
 
-        best_recall = 0
+        self.best_recall = 0
         self.best_classifier = None
         self.best_scaler = None
         self.best_params = None
@@ -90,8 +90,8 @@ class ChurnPredictionModel:
                 grid_search.fit(self.X_train, self.y_train)
 
                 mean_recall = grid_search.best_score_
-                if mean_recall > best_recall:
-                    best_recall = mean_recall
+                if mean_recall > self.best_recall:
+                    self.best_recall = mean_recall
                     self.best_classifier = classifier_name
                     self.best_scaler = scaler_name
                     self.best_params = grid_search.best_params_
@@ -137,10 +137,11 @@ class ChurnPredictionModel:
         with open("metrics.txt", 'w') as outfile:
             outfile.write(f"Training variance explained: {train_score:.1f}%\n")
             outfile.write(f"Test variance explained: {test_score:.1f}%\n")
-            outfile.write(f"Best classifier: {self.best_classifier}\n")
+            outfile.write(f"Best classifier: {self.best_pipeline}\n")
             outfile.write(f"Best scaler: {self.best_scaler}\n")
             outfile.write(f"Best params: {self.best_params}\n")
-            outfile.write(f"Best recall: {best_threshold:.4f}\n")
+            outfile.write(f"Best recall: {self.best_recall:.2f}\n")
+            outfile.write(f"Best threshold: {best_threshold:.4f}\n")
 
     def plot_results(self):
         """Generate and save confusion matrix and classification report as images."""
