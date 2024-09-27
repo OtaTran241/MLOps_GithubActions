@@ -4,14 +4,14 @@ This MLOps project is an end-to-end pipeline for a Machine Learning model using 
 
 ## Table of Contents
 
-⭐[Customer Churn Prediction Model](#customer-churn-prediction-model)
-⭐[CI/CD Pipeline Analysis](#ci-cd-pipeline-analysis)
-&nbsp;&nbsp;&nbsp;&nbsp;🌟[Trigger](#1-trigger)
-&nbsp;&nbsp;&nbsp;&nbsp;🌟[Jobs](#2-jobs)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Test before train](#a-test_before_train)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Train](#b-train)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Test after train](#c-test_after_train)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Build](#d-build)
+⭐[Customer Churn Prediction Model](#customer-churn-prediction-model)  
+⭐[CI/CD Pipeline Analysis](#ci-cd-pipeline-analysis)  
+&nbsp;&nbsp;&nbsp;&nbsp;🌟[Trigger](#1-trigger)  
+&nbsp;&nbsp;&nbsp;&nbsp;🌟[Jobs](#2-jobs)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Test before train](#a-test_before_train)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Train](#b-train)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Test after train](#c-test_after_train)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Build](#d-build)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Deploy](#e-deploy)  
 
 
