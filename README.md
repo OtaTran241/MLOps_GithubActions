@@ -97,5 +97,5 @@ The pipeline consists of five main jobs:
   - **Deploy to Kubernetes**: Applies the Kubernetes deployment configuration.
   - **Verify deployment**: Checks the status of the deployment to ensure it is running correctly.
 
-### 2. **Conclusion**
+### 3. **Conclusion**
 This CI/CD pipeline streamlines the process of deploying machine learning models, ensuring that code changes are automatically tested, built, and deployed to a Kubernetes environment.
