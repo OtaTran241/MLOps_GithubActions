@@ -6,13 +6,13 @@ This MLOps project is an end-to-end pipeline for a Machine Learning model using 
 
 ⭐ [Customer Churn Prediction Model](#customer-churn-prediction-model)  
 ⭐ [CI/CD Pipeline Analysis](#ci-cd-pipeline-analysis)  
-   🌟 [Trigger](#Trigger)  
-   🌟 [Jobs](#jobs)  
-     ✨ [test_before_train](#test_before_train)  
-     ✨ [train](#train)  
-     ✨ [test_after_train](#test_after_train)  
-     ✨ [build](#build)  
-     ✨ [deploy](#deploy)  
+   🌟 [Trigger](#1-trigger)
+   🌟 [Jobs](#2-jobs)
+     ✨ [test_before_train](#a-test_before_train) 
+     ✨ [train](#b-train)
+     ✨ [test_after_train](#c-test_after_train)
+     ✨ [build](#d-build)
+     ✨ [deploy](#e-deploy)
 
 
 ## Customer Churn Prediction Model
