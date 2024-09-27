@@ -4,8 +4,13 @@ This MLOps project is an end-to-end pipeline for a Machine Learning model using 
 
 ## Table of Contents
 
-✅ [Customer Churn Prediction Model](#Customer-Churn-Prediction-Model)  
-✅ [CI/CD Pipeline Analysis](#CI/CD-Pipeline-Analysis)  
+⭐ [Customer Churn Prediction Model](#Customer-Churn-Prediction-Model)  
+⭐ [CI/CD Pipeline Analysis](#CI/CD-Pipeline-Analysis)  
+   🌟[Trigger](#Trigger)  
+   🌟[Analysis](#Analysis)  
+   🌟[Analysis](#Analysis)  
+   🌟[Analysis](#Analysis)  
+   🌟[Analysis](#Analysis)  
 
 ## Customer Churn Prediction Model
 
