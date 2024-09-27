@@ -13,6 +13,7 @@ This MLOps project is an end-to-end pipeline for a Machine Learning model using 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Test after train](#c-test_after_train)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Build](#d-build)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨ [Deploy](#e-deploy)  
+&nbsp;&nbsp;&nbsp;&nbsp;🌟[Conclusion](#3-Conclusion)  
 
 
 ## Customer Churn Prediction Model
@@ -96,5 +97,5 @@ The pipeline consists of five main jobs:
   - **Deploy to Kubernetes**: Applies the Kubernetes deployment configuration.
   - **Verify deployment**: Checks the status of the deployment to ensure it is running correctly.
 
-### Conclusion
+### 2. **Conclusion**
 This CI/CD pipeline streamlines the process of deploying machine learning models, ensuring that code changes are automatically tested, built, and deployed to a Kubernetes environment.
