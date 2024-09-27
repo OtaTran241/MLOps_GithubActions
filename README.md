@@ -34,7 +34,7 @@ The `train.py` script performs the following tasks:
 
 The CI/CD pipeline defined in `.github/workflows/CI_CD.yml` automates the process of training, testing, building, and deploying the machine learning model. Here’s a breakdown of the key components:
 
-### 1. **Trigger**
+&nbsp;&nbsp;&nbsp;&nbsp;### 1. **Trigger**
 - The pipeline is triggered on every push to the repository.
 
 ### 2. **Jobs**
