@@ -7,7 +7,7 @@ from sklearn.metrics import fbeta_score, recall_score, make_scorer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
 from sklearn.linear_model import LogisticRegression
-from train import ChurnPredictionModel  # Ensure this import is correct
+from train import ChurnPredictionModel 
 
 class TestBeforeTrain(unittest.TestCase):
     @classmethod
