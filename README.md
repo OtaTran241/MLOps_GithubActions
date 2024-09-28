@@ -30,7 +30,7 @@ The `train.py` script performs the following tasks:
 5. **Model Training**: Trains the best-performing model based on recall.
 6. **Evaluation**: Assesses model performance using various metrics and saves evaluation results and visualizations.
 
-## CI-CD Pipeline Analysis
+## CI/CD Pipeline Analysis <a id="ci-cd-pipeline-analysis"></a>
 
 The CI/CD pipeline defined in `.github/workflows/CI_CD.yml` automates the process of training, testing, building, and deploying the machine learning model. Here’s a breakdown of the key components:
 
