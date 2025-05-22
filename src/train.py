@@ -19,8 +19,6 @@ import pickle
 
 class ChurnPredictionModel:
     def __init__(self, data_path):
-        """Initialize dataset, encoders, classifiers, scalers, and split data."""
-
         self.df = pd.read_csv(data_path)
         self._encode_labels()
         self.X = self.df.drop(['customer_id', 'churn'], axis=1)
