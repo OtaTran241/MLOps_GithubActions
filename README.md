@@ -1,6 +1,6 @@
 # MLOps Churn Model Deployment
 
-This MLOps project is an end-to-end pipeline for a Machine Learning model using GitHub Actions.
+This MLOps project is an end-to-end pipeline for a Machine Learning model using GitHub Actions.  
 
 ## Table of Contents
 
